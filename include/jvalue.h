@@ -24,10 +24,10 @@ namespace NJValue {
         public:
         EJValueType GetType() const;
 
-        inline operator std::string() const { return ""; }
-        inline operator bool() const { return false; }
-        inline operator long() const { return 0; }
-        inline operator double() const { return 0.0; }
+        inline operator string_t() const { return ""; }
+        inline operator bool_t() const { return false; }
+        inline operator integer_t() const { return 0; }
+        inline operator double_t() const { return 0.0; }
     };
 
     class JSON_NULL {
@@ -35,28 +35,28 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
-        inline operator std::string() const { return ""; }
-        inline operator bool() const { return false; }
-        inline operator long() const { return 0; }
-        inline operator double() const { return 0.0; }
+        inline operator string_t() const { return ""; }
+        inline operator bool_t() const { return false; }
+        inline operator integer_t() const { return 0; }
+        inline operator double_t() const { return 0.0; }
     };
 
     class JSON_STRING {
-        std::string value;
+        string_t value;
         public:
 
-        JSON_STRING(std::string value = "") : value(value) { }
+        JSON_STRING(string_t value = "") : value(value) { }
         JSON_STRING(const JSON_STRING& val) : value(val.value) { }
 
         EJValueType GetType() const;
 
-        inline operator std::string() const { return value; }
-        inline operator bool() const {
+        inline operator string_t() const { return value; }
+        inline operator bool_t() const {
             return (value == "" || value == "null" || value == "0" || value == "false")
                 ? false
                 : true;
         }
-        inline operator long() const {
+        inline operator integer_t() const {
             try {
                 return (value == "" || value == "null" || value =="false")
                     ? 0
@@ -67,7 +67,7 @@ namespace NJValue {
                 return 0;
             }
         }
-        inline operator double() const {
+        inline operator double_t() const {
             try {
                 return (value == "" || value == "null" || value =="false")
                     ? 0.0
@@ -81,48 +81,48 @@ namespace NJValue {
     };
 
     class JSON_BOOL {
-        bool value;
+        bool_t value;
         public:
 
-        JSON_BOOL(bool value = false) : value(value) { }
+        JSON_BOOL(bool_t value = false) : value(value) { }
         JSON_BOOL(const JSON_BOOL& val) : value(val.value) { }
 
         EJValueType GetType() const;
 
-        inline operator std::string() const { return value ? "true" : "false"; }
-        inline operator bool() const { return value; }
-        inline operator long() const { return value ? 1 : 0; }
-        inline operator double() const { return value ? 1.0 : 0.0; }
+        inline operator string_t() const { return value ? "true" : "false"; }
+        inline operator bool_t() const { return value; }
+        inline operator integer_t() const { return value ? 1 : 0; }
+        inline operator double_t() const { return value ? 1.0 : 0.0; }
     };
 
     class JSON_INTEGER {
-        long value;
+        integer_t value;
         public:
 
-        JSON_INTEGER(long value = 0) : value(value) { }
+        JSON_INTEGER(integer_t value = 0) : value(value) { }
         JSON_INTEGER(const JSON_INTEGER& val) : value(val.value) { }
 
         EJValueType GetType() const;
 
-        inline operator std::string() const { return std::to_string(value); }
-        inline operator bool() const { return value == 0 ? false : true; }
-        inline operator long() const { return value; }
-        inline operator double() const { return (double)value; }
+        inline operator string_t() const { return std::to_string(value); }
+        inline operator bool_t() const { return value == 0 ? false : true; }
+        inline operator integer_t() const { return value; }
+        inline operator double_t() const { return (double_t)value; }
     };
 
     class JSON_DOUBLE {
-        double value;
+        double_t value;
         public:
 
-        JSON_DOUBLE(double value = 0.0) : value(value) { }
+        JSON_DOUBLE(double_t value = 0.0) : value(value) { }
         JSON_DOUBLE(const JSON_DOUBLE& val) : value(val.value) { }
 
         EJValueType GetType() const;
 
-        inline operator std::string() const { return std::to_string(value); }
-        inline operator bool() const { return (value >= 0.0 && value < 1.0) ? false : true; }
-        inline operator long() const { return (long)value; }
-        inline operator double() const { return value; }
+        inline operator string_t() const { return std::to_string(value); }
+        inline operator bool_t() const { return (value >= 0.0 && value < 1.0) ? false : true; }
+        inline operator integer_t() const { return (integer_t)value; }
+        inline operator double_t() const { return value; }
     };
 
     class JSON_ARRAY : public std::deque<IJValue> {
@@ -130,10 +130,10 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
-        inline operator std::string() const { return "ARRAY"; }
-        inline operator bool() const { return size() == 0 ? false : true; }
-        inline operator long() const { return size(); }
-        inline operator double() const { return (double)size(); }
+        inline operator string_t() const { return "ARRAY"; }
+        inline operator bool_t() const { return size() == 0 ? false : true; }
+        inline operator integer_t() const { return size(); }
+        inline operator double_t() const { return (double_t)size(); }
     };
 
     class IJValue {
@@ -148,10 +148,10 @@ namespace NJValue {
         virtual bool IsMap() const { return GetType() == JMAP; }
 
         virtual EJValueType GetType() const { return JUNDEFINED; }
-        virtual std::string AsString() const { return ""; };
-        virtual bool AsBool() const { return false; };
-        virtual long AsInteger() const { return 0; };
-        virtual double AsDouble() const { return 0; };
+        virtual string_t AsString() const { return ""; };
+        virtual bool_t AsBool() const { return false; };
+        virtual integer_t AsInteger() const { return 0; };
+        virtual double_t AsDouble() const { return 0; };
 
         virtual JSON_ARRAY ToArray() const {
             JSON_ARRAY a;
@@ -175,22 +175,22 @@ namespace NJValue {
         TJValue(const T& value) : val(value) {
         }
 
-        TJValue(const long& value) : val(T(JSON_INTEGER(value))) {
+        TJValue(const integer_t& value) : val(T(JSON_INTEGER(value))) {
         }
 
-        TJValue(const int& value) : val(T(JSON_INTEGER(value))) {
+        TJValue(const int& value) : val(T(JSON_INTEGER((integer_t)value))) {
         }
 
-        TJValue(const double& value) : val(T(JSON_DOUBLE(value))) {
+        TJValue(const double_t& value) : val(T(JSON_DOUBLE(value))) {
         }
 
-        TJValue(const std::string& value) : val(T(JSON_STRING(value))) {
+        TJValue(const string_t& value) : val(T(JSON_STRING(value))) {
         }
 
-        TJValue(const char* value) : val(T(JSON_STRING(std::string(value)))) {
+        TJValue(const char* value) : val(T(JSON_STRING(string_t(value)))) {
         }
 
-        TJValue(const bool& value) : val(T(JSON_BOOL(value))) {
+        TJValue(const bool_t& value) : val(T(JSON_BOOL(value))) {
         }
 
         virtual ~TJValue() {
@@ -204,20 +204,20 @@ namespace NJValue {
             return val;
         }
 
-        virtual std::string AsString() const {
-            return (std::string)val;
+        virtual string_t AsString() const {
+            return (string_t)val;
         }
 
-        virtual bool AsBool() const {
-            return (bool)val;
+        virtual bool_t AsBool() const {
+            return (bool_t)val;
         }
 
-        virtual long AsInteger() const {
-            return (long)val;
+        virtual integer_t AsInteger() const {
+            return (integer_t)val;
         }
 
-        virtual double AsDouble() const {
-            return (double)val;
+        virtual double_t AsDouble() const {
+            return (double_t)val;
         }
 
     };
