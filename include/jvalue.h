@@ -16,7 +16,7 @@ namespace NJValue {
     class JSON_INTEGER;
 //    class JSON_DOUBLE;
     class JSON_STRING;
-//    class JSON_BOOL;
+    class JSON_BOOL;
     class JSON_ARRAY;
 //    class JSON_MAP;
 
@@ -24,10 +24,10 @@ namespace NJValue {
         public:
         EJValueType GetType() const;
 
-        operator std::string() const { return ""; }
-        operator bool() const { return false; }
-        operator long() const { return 0; }
-        operator double() const { return 0.0; }
+        inline operator std::string() const { return ""; }
+        inline operator bool() const { return false; }
+        inline operator long() const { return 0; }
+        inline operator double() const { return 0.0; }
     };
 
     class JSON_NULL {
@@ -35,10 +35,10 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
-        operator std::string() const { return ""; }
-        operator bool() const { return false; }
-        operator long() const { return 0; }
-        operator double() const { return 0.0; }
+        inline operator std::string() const { return ""; }
+        inline operator bool() const { return false; }
+        inline operator long() const { return 0; }
+        inline operator double() const { return 0.0; }
     };
 
     class JSON_STRING {
@@ -50,13 +50,13 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
-        operator std::string() const { return value; }
-        operator bool() const {
+        inline operator std::string() const { return value; }
+        inline operator bool() const {
             return (value == "" || value == "null" || value == "0" || value == "false")
                 ? false
                 : true;
         }
-        operator long() const {
+        inline operator long() const {
             try {
                 return (value == "" || value == "null" || value =="false")
                     ? 0
@@ -67,7 +67,7 @@ namespace NJValue {
                 return 0;
             }
         }
-        operator double() const {
+        inline operator double() const {
             try {
                 return (value == "" || value == "null" || value =="false")
                     ? 0.0
@@ -80,6 +80,21 @@ namespace NJValue {
         }
     };
 
+    class JSON_BOOL {
+        bool value;
+        public:
+
+        JSON_BOOL(bool value = false) : value(value) { }
+        JSON_BOOL(const JSON_BOOL& val) : value(val.value) { }
+
+        EJValueType GetType() const;
+
+        inline operator std::string() const { return value ? "true" : "false"; }
+        inline operator bool() const { return value; }
+        inline operator long() const { return value ? 1 : 0; }
+        inline operator double() const { return value ? 1.0 : 0.0; }
+    };
+
     class JSON_INTEGER {
         long value;
         public:
@@ -89,10 +104,10 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
-        operator std::string() const { return std::to_string(value); }
-        operator bool() const { return value == 0 ? false : true; }
-        operator long() const { return value; }
-        operator double() const { return (double)value; }
+        inline operator std::string() const { return std::to_string(value); }
+        inline operator bool() const { return value == 0 ? false : true; }
+        inline operator long() const { return value; }
+        inline operator double() const { return (double)value; }
     };
 
     class JSON_ARRAY : public std::deque<IJValue> {
@@ -100,10 +115,10 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
-        operator std::string() const { return "ARRAY"; }
-        operator bool() const { return size() == 0 ? false : true; }
-        operator long() const { return size(); }
-        operator double() const { return (double)size(); }
+        inline operator std::string() const { return "ARRAY"; }
+        inline operator bool() const { return size() == 0 ? false : true; }
+        inline operator long() const { return size(); }
+        inline operator double() const { return (double)size(); }
     };
 
     class IJValue {
@@ -145,6 +160,9 @@ namespace NJValue {
         TJValue(const T& value) : val(value) {
         }
 
+        TJValue(const long& value) : val(T(JSON_INTEGER(value))) {
+        }
+
         TJValue(const int& value) : val(T(JSON_INTEGER(value))) {
         }
 
@@ -155,6 +173,9 @@ namespace NJValue {
         }
 
         TJValue(const char* value) : val(T(JSON_STRING(std::string(value)))) {
+        }
+
+        TJValue(const bool& value) : val(T(JSON_BOOL(value))) {
         }
 
         virtual ~TJValue() {

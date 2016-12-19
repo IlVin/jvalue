@@ -8,6 +8,22 @@ using namespace NJValue;
 
 BOOST_AUTO_TEST_SUITE(testSuiteJValue)
 
+    BOOST_AUTO_TEST_CASE( testJValueBool ) {
+        {
+            TJValue<JSON_BOOL> j = true;
+            BOOST_CHECK_EQUAL(j.AsString(), "true");
+            BOOST_CHECK_EQUAL(j.AsInteger(), 1);
+            BOOST_CHECK_EQUAL(j.AsBool(), true);
+        }
+
+        {
+            TJValue<JSON_BOOL> j = false;
+            BOOST_CHECK_EQUAL(j.AsString(), "false");
+            BOOST_CHECK_EQUAL(j.AsInteger(), 0);
+            BOOST_CHECK_EQUAL(j.AsBool(), false);
+        }
+    }
+
     BOOST_AUTO_TEST_CASE( testJValueInteger ) {
         {
             TJValue<JSON_INTEGER> j = 5;
