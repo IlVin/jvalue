@@ -19,6 +19,10 @@ namespace NJValue {
         return JSTRING;
     }
 
+    EJValueType JSON_DOUBLE::GetType() const {
+        return JDOUBLE;
+    }
+
     EJValueType JSON_BOOL::GetType() const {
         return JBOOL;
     }

@@ -110,6 +110,21 @@ namespace NJValue {
         inline operator double() const { return (double)value; }
     };
 
+    class JSON_DOUBLE {
+        double value;
+        public:
+
+        JSON_DOUBLE(double value = 0.0) : value(value) { }
+        JSON_DOUBLE(const JSON_DOUBLE& val) : value(val.value) { }
+
+        EJValueType GetType() const;
+
+        inline operator std::string() const { return std::to_string(value); }
+        inline operator bool() const { return (value >= 0.0 && value < 1.0) ? false : true; }
+        inline operator long() const { return (long)value; }
+        inline operator double() const { return value; }
+    };
+
     class JSON_ARRAY : public std::deque<IJValue> {
         public:
 
@@ -164,6 +179,9 @@ namespace NJValue {
         }
 
         TJValue(const int& value) : val(T(JSON_INTEGER(value))) {
+        }
+
+        TJValue(const double& value) : val(T(JSON_DOUBLE(value))) {
         }
 
 //        TJValue(const double& value) : val(T(JSON_DOUBLE(value))) {
