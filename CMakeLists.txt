@@ -1,36 +1,67 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 
 # DEBUG|RELEASE|RELWITHDEBINFO|MINSIZEREL
 # SET (CMAKE_BUILD_TYPE DEBUG)
-SET (CMAKE_BUILD_TYPE DEBUG)
+set (CMAKE_BUILD_TYPE DEBUG)
 
 # Application name
-SET (APP_NAME jvalue)
+set (PROJECT jvalue)
 
 # Project name
-PROJECT (${APP_NAME})
+project (${PROJECT})
 
 # Compiler flags
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
 
 # Directories
-SET (SRC_DIR ${PROJECT_SOURCE_DIR}/src)
-SET (INC_DIR ${PROJECT_SOURCE_DIR}/include)
-SET (LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
-SET (TST_DIR ${PROJECT_SOURCE_DIR}/test)
+set (SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+set (INC_DIR ${PROJECT_SOURCE_DIR}/include)
+set (LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
+set (TST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-#ENABLE_TESTING ()
 
-ADD_EXECUTABLE (${APP_NAME} "${PROJECT_SOURCE_DIR}/main.cpp")
 
-###### BOOST ###########
-#FIND_PACKAGE(Boost REQUIRED)
-# SET (Boost_USE_STATIC_LIBS ON)
-# SET (Boost_USE_MULTITHREADED ON)
+######  JValue  ############
+add_library (jvalue_lib STATIC "${SRC_DIR}/jvalue.cpp")
+set (LIBRARIES ${LIBRARIES} jvalue_lib)
+include_directories (${INC_DIR})
+###### /JValue  ############
 
-INCLUDE_DIRECTORIES (${INC_DIR})
 
-# ADD_SUBDIRECTORY( ${SRC_DIR}  )
 
-# TARGET_LINK_LIBRARIES()
+######  BOOST  ############
+set (Boost_USE_STATIC_LIBS ON)
+set (Boost_USE_MULTITHREADED ON)
+
+find_package (Boost COMPONENTS unit_test_framework REQUIRED)
+set (LIBRARIES ${LIBRARIES} ${Boost_LIBRARIES})
+include_directories (${Boost_INCLUDE_DIRS})
+###### /BOOST  ############
+
+
+
+###### TESTS  ############
+set (TESTS_PROJECT "${PROJECT}_ut")
+enable_testing ()
+###### /TESTS  ############
+
+
+
+######  EXECUTABLE  ############
+add_executable (${PROJECT} "${PROJECT_SOURCE_DIR}/main.cpp")
+add_executable (${TESTS_PROJECT} "${PROJECT_SOURCE_DIR}/jvalue_ut.cpp")
+###### /EXECUTABLE  ############
+
+
+
+######  LINKING LIBRARY  ############
+foreach (LIBRARY ${LIBRARIES})
+    target_link_libraries(${TESTS_PROJECT} ${LIBRARY})
+    target_link_libraries(${PROJECT} ${LIBRARY})
+endforeach ()
+###### /LINKING LIBRARY  ############
+
+
+
+
 
