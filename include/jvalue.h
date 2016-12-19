@@ -11,6 +11,15 @@ namespace NJValue {
 
     enum EJValueType { JUNDEFINED, JNULL, JBOOL, JINTEGER, JDOUBLE, JSTRING, JARRAY, JMAP };
 
+    class IJValue;
+
+    using bool_t = bool;
+    using string_t = std::string;
+    using integer_t = long;
+    using double_t = double;
+    using array_t = std::deque<IJValue>;
+    using map_t = std::map<string_t, IJValue>;
+
     class JSON_UNDEFINED {
         public:
         EJValueType GetType() const;
