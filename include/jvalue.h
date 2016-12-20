@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <vector>
 #include <map>
 #include <string>
@@ -24,6 +25,12 @@ namespace NJValue {
         public:
         EJValueType GetType() const;
 
+        inline void Swap (JSON_UNDEFINED & j) { }
+        inline JSON_UNDEFINED & operator = (JSON_UNDEFINED j) {
+            this->Swap(j);
+            return *this;
+        }
+
         inline operator string_t() const { return ""; }
         inline operator bool_t() const { return false; }
         inline operator integer_t() const { return 0; }
@@ -35,6 +42,12 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
+        inline void Swap (JSON_NULL & j) { }
+        inline JSON_NULL & operator = (JSON_NULL j) {
+            this->Swap(j);
+            return *this;
+        }
+
         inline operator string_t() const { return ""; }
         inline operator bool_t() const { return false; }
         inline operator integer_t() const { return 0; }
@@ -45,20 +58,33 @@ namespace NJValue {
         string_t value;
         public:
 
-        JSON_STRING(string_t value = "") : value(value) { }
-        JSON_STRING(const JSON_STRING& val) : value(val.value) { }
+        explicit inline JSON_STRING(const string_t & value = "") : value(value) { }
+        explicit inline JSON_STRING(const JSON_STRING & val) : value(val.value) { }
 
         EJValueType GetType() const;
 
-        inline operator string_t() const { return value; }
+        inline void Swap (JSON_STRING & str) {
+            std::swap(value, str.value);
+        }
+
+        inline JSON_STRING & operator = (JSON_STRING str) {
+            this->Swap(str);
+            return *this;
+        }
+
+        inline operator string_t() const {
+            return value;
+        }
+
         inline operator bool_t() const {
-            return (value == "" || value == "null" || value == "0" || value == "false")
+            return (value == "" || value == "0" || value == "false")
                 ? false
                 : true;
         }
+
         inline operator integer_t() const {
             try {
-                return (value == "" || value == "null" || value =="false")
+                return (value == "" || value =="false")
                     ? 0
                     : ( value == "true" )
                         ? 1
@@ -67,9 +93,10 @@ namespace NJValue {
                 return 0;
             }
         }
+
         inline operator double_t() const {
             try {
-                return (value == "" || value == "null" || value =="false")
+                return (value == "" || value =="false")
                     ? 0.0
                     : ( value =="true" )
                         ? 1.0
@@ -84,8 +111,8 @@ namespace NJValue {
         bool_t value;
         public:
 
-        JSON_BOOL(bool_t value = false) : value(value) { }
-        JSON_BOOL(const JSON_BOOL& val) : value(val.value) { }
+        explicit inline JSON_BOOL(const bool_t & value = false) : value(value) { }
+        explicit inline JSON_BOOL(const JSON_BOOL & val) : value(val.value) { }
 
         EJValueType GetType() const;
 
@@ -99,8 +126,8 @@ namespace NJValue {
         integer_t value;
         public:
 
-        JSON_INTEGER(integer_t value = 0) : value(value) { }
-        JSON_INTEGER(const JSON_INTEGER& val) : value(val.value) { }
+        explicit inline JSON_INTEGER(const integer_t & value = 0) : value(value) { }
+        explicit inline JSON_INTEGER(const JSON_INTEGER & val) : value(val.value) { }
 
         EJValueType GetType() const;
 
@@ -114,8 +141,8 @@ namespace NJValue {
         double_t value;
         public:
 
-        JSON_DOUBLE(double_t value = 0.0) : value(value) { }
-        JSON_DOUBLE(const JSON_DOUBLE& val) : value(val.value) { }
+        explicit inline JSON_DOUBLE(const double_t & value = 0.0) : value(value) { }
+        explicit inline JSON_DOUBLE(const JSON_DOUBLE & val) : value(val.value) { }
 
         EJValueType GetType() const;
 
@@ -137,15 +164,18 @@ namespace NJValue {
     };
 
     class IJValue {
+    protected:
+        IJValue() { }
+
     public:
-        virtual bool IsUndefined() const { return GetType() == JUNDEFINED; }
-        virtual bool IsNull() const { return GetType() == JNULL; }
-        virtual bool IsBool() const { return GetType() == JBOOL; }
-        virtual bool IsInteger() const { return GetType() == JINTEGER; }
-        virtual bool IsDouble() const { return GetType() == JDOUBLE; }
-        virtual bool IsString() const { return GetType() == JSTRING; }
-        virtual bool IsArray() const { return GetType() == JARRAY; }
-        virtual bool IsMap() const { return GetType() == JMAP; }
+        inline bool IsUndefined() const { return GetType() == JUNDEFINED; }
+        inline bool IsNull() const { return GetType() == JNULL; }
+        inline bool IsBool() const { return GetType() == JBOOL; }
+        inline bool IsInteger() const { return GetType() == JINTEGER; }
+        inline bool IsDouble() const { return GetType() == JDOUBLE; }
+        inline bool IsString() const { return GetType() == JSTRING; }
+        inline bool IsArray() const { return GetType() == JARRAY; }
+        inline bool IsMap() const { return GetType() == JMAP; }
 
         virtual EJValueType GetType() const { return JUNDEFINED; }
         virtual string_t AsString() const { return ""; };
@@ -153,7 +183,7 @@ namespace NJValue {
         virtual integer_t AsInteger() const { return 0; };
         virtual double_t AsDouble() const { return 0; };
 
-        virtual JSON_ARRAY ToArray() const {
+        virtual JSON_ARRAY AsArray() const {
             JSON_ARRAY a;
             a.push_back(*this);
             return a;
@@ -172,25 +202,25 @@ namespace NJValue {
         TJValue() {
         }
 
-        TJValue(const T& value) : val(value) {
+        TJValue(const T & value) : val(value) {
         }
 
-        TJValue(const integer_t& value) : val(T(JSON_INTEGER(value))) {
+        TJValue(const integer_t & value) : val(T(JSON_INTEGER(value))) {
         }
 
-        TJValue(const int& value) : val(T(JSON_INTEGER((integer_t)value))) {
+        TJValue(const int & value) : val(T(JSON_INTEGER((integer_t)value))) {
         }
 
-        TJValue(const double_t& value) : val(T(JSON_DOUBLE(value))) {
+        TJValue(const double_t & value) : val(T(JSON_DOUBLE(value))) {
         }
 
-        TJValue(const string_t& value) : val(T(JSON_STRING(value))) {
+        TJValue(const string_t & value) : val(T(JSON_STRING(value))) {
         }
 
-        TJValue(const char* value) : val(T(JSON_STRING(string_t(value)))) {
+        TJValue(const char * value) : val(T(JSON_STRING(string_t(value)))) {
         }
 
-        TJValue(const bool_t& value) : val(T(JSON_BOOL(value))) {
+        TJValue(const bool_t & value) : val(T(JSON_BOOL(value))) {
         }
 
         virtual ~TJValue() {
@@ -200,7 +230,7 @@ namespace NJValue {
             return val.GetType();
         }
 
-        virtual const T& GetValue() const {
+        virtual const T & GetValue() const {
             return val;
         }
 
