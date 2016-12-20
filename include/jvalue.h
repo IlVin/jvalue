@@ -22,7 +22,9 @@ namespace NJValue {
     using map_t = std::map<string_t, IJValue>;
 
     class JSON_UNDEFINED {
+
         public:
+
         EJValueType GetType() const;
 
         inline void Swap (JSON_UNDEFINED & j) { }
@@ -38,6 +40,7 @@ namespace NJValue {
     };
 
     class JSON_NULL {
+
         public:
 
         EJValueType GetType() const;
@@ -55,7 +58,9 @@ namespace NJValue {
     };
 
     class JSON_STRING {
+
         string_t value;
+
         public:
 
         explicit inline JSON_STRING(const string_t & value = "") : value(value) { }
@@ -108,7 +113,9 @@ namespace NJValue {
     };
 
     class JSON_BOOL {
+
         bool_t value;
+
         public:
 
         explicit inline JSON_BOOL(const bool_t & value = false) : value(value) { }
@@ -123,7 +130,9 @@ namespace NJValue {
     };
 
     class JSON_INTEGER {
+
         integer_t value;
+
         public:
 
         explicit inline JSON_INTEGER(const integer_t & value = 0) : value(value) { }
@@ -138,7 +147,9 @@ namespace NJValue {
     };
 
     class JSON_DOUBLE {
+
         double_t value;
+
         public:
 
         explicit inline JSON_DOUBLE(const double_t & value = 0.0) : value(value) { }
@@ -153,6 +164,7 @@ namespace NJValue {
     };
 
     class JSON_ARRAY : public std::deque<IJValue> {
+
         public:
 
         EJValueType GetType() const;
@@ -164,7 +176,9 @@ namespace NJValue {
     };
 
     class IJValue {
+
     protected:
+
         IJValue() { }
 
     public:
@@ -195,6 +209,7 @@ namespace NJValue {
 
     template<class T>
     class TJValue : public IJValue {
+
         T val;
 
     public:
@@ -252,4 +267,11 @@ namespace NJValue {
 
     };
 
+    inline EJValueType JSON_UNDEFINED::GetType() const { return JUNDEFINED; }
+    inline EJValueType JSON_NULL::GetType() const { return JNULL; }
+    inline EJValueType JSON_INTEGER::GetType() const { return JINTEGER; }
+    inline EJValueType JSON_STRING::GetType() const { return JSTRING; }
+    inline EJValueType JSON_DOUBLE::GetType() const { return JDOUBLE; }
+    inline EJValueType JSON_BOOL::GetType() const { return JBOOL; }
+    inline EJValueType JSON_ARRAY::GetType() const { return JARRAY; }
 }
