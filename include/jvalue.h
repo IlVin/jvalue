@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <cstdio>
 #include <deque>
 
 namespace NJValue {
@@ -37,9 +38,15 @@ namespace NJValue {
         inline operator bool_t() const { return false; }
         inline operator integer_t() const { return 0; }
         inline operator double_t() const { return 0.0; }
+
+        inline void push_back(const IJValue & val) { };
+        inline void push_front(const IJValue & val) { };
+        inline void pop_back() { };
+        inline void pop_front() { };
+        inline size_t size() { return 1; };
     };
 
-    class JSON_NULL {
+    class JSON_NULL : public JSON_UNDEFINED {
 
         public:
 
@@ -57,7 +64,7 @@ namespace NJValue {
         inline operator double_t() const { return 0.0; }
     };
 
-    class JSON_STRING {
+    class JSON_STRING : public JSON_UNDEFINED {
 
         string_t value;
 
@@ -82,14 +89,14 @@ namespace NJValue {
         }
 
         inline operator bool_t() const {
-            return (value == "" || value == "0" || value == "false")
+            return (value.empty() || value == "0" || value == "false")
                 ? false
                 : true;
         }
 
         inline operator integer_t() const {
             try {
-                return (value == "" || value =="false")
+                return (value.empty() || value =="false")
                     ? 0
                     : ( value == "true" )
                         ? 1
@@ -101,7 +108,7 @@ namespace NJValue {
 
         inline operator double_t() const {
             try {
-                return (value == "" || value =="false")
+                return (value.empty() || value =="false")
                     ? 0.0
                     : ( value =="true" )
                         ? 1.0
@@ -110,9 +117,13 @@ namespace NJValue {
                 return 0.0;
             }
         }
+
+        inline size_t size() {
+            return value.size();
+        }
     };
 
-    class JSON_BOOL {
+    class JSON_BOOL : public JSON_UNDEFINED {
 
         bool_t value;
 
@@ -129,7 +140,7 @@ namespace NJValue {
         inline operator double_t() const { return value ? 1.0 : 0.0; }
     };
 
-    class JSON_INTEGER {
+    class JSON_INTEGER : public JSON_UNDEFINED {
 
         integer_t value;
 
@@ -146,7 +157,7 @@ namespace NJValue {
         inline operator double_t() const { return (double_t)value; }
     };
 
-    class JSON_DOUBLE {
+    class JSON_DOUBLE : public JSON_UNDEFINED {
 
         double_t value;
 
@@ -164,12 +175,15 @@ namespace NJValue {
     };
 
     class JSON_ARRAY : public std::deque<IJValue> {
-
+        char buffer[20];
         public:
 
         EJValueType GetType() const;
 
-        inline operator string_t() const { return "ARRAY"; }
+        inline operator string_t() const {
+            snprintf((char*)buffer, 20, "ARRAY(0x%x)", (size_t)this);
+            return string_t(buffer);
+        }
         inline operator bool_t() const { return size() == 0 ? false : true; }
         inline operator integer_t() const { return size(); }
         inline operator double_t() const { return (double_t)size(); }
@@ -197,6 +211,12 @@ namespace NJValue {
         virtual integer_t AsInteger() const { return 0; };
         virtual double_t AsDouble() const { return 0; };
 
+        virtual void push_back(const IJValue & val) { };
+        virtual void push_front(const IJValue & val) { };
+        virtual void pop_back() { };
+        virtual void pop_front() { };
+        virtual size_t size() { return 0; };
+
         virtual JSON_ARRAY AsArray() const {
             JSON_ARRAY a;
             a.push_back(*this);
@@ -210,60 +230,80 @@ namespace NJValue {
     template<class T>
     class TJValue : public IJValue {
 
-        T val;
+        T value;
 
     public:
 
         TJValue() {
         }
 
-        TJValue(const T & value) : val(value) {
+        TJValue(const T & val) : value(val) {
         }
 
-        TJValue(const integer_t & value) : val(T(JSON_INTEGER(value))) {
+        TJValue(const integer_t & val) : value(T(JSON_INTEGER(val))) {
         }
 
-        TJValue(const int & value) : val(T(JSON_INTEGER((integer_t)value))) {
+        TJValue(const int & val) : value(T(JSON_INTEGER((integer_t)val))) {
         }
 
-        TJValue(const double_t & value) : val(T(JSON_DOUBLE(value))) {
+        TJValue(const double_t & val) : value(T(JSON_DOUBLE(val))) {
         }
 
-        TJValue(const string_t & value) : val(T(JSON_STRING(value))) {
+        TJValue(const string_t & val) : value(T(JSON_STRING(val))) {
         }
 
-        TJValue(const char * value) : val(T(JSON_STRING(string_t(value)))) {
+        TJValue(const char * val) : value(T(JSON_STRING(string_t(val)))) {
         }
 
-        TJValue(const bool_t & value) : val(T(JSON_BOOL(value))) {
+        TJValue(const bool_t & val) : value(T(JSON_BOOL(val))) {
         }
 
         virtual ~TJValue() {
         }
 
         virtual EJValueType GetType() const {
-            return val.GetType();
+            return value.GetType();
         }
 
         virtual const T & GetValue() const {
-            return val;
+            return value;
         }
 
         virtual string_t AsString() const {
-            return (string_t)val;
+            return (string_t)value;
         }
 
         virtual bool_t AsBool() const {
-            return (bool_t)val;
+            return (bool_t)value;
         }
 
         virtual integer_t AsInteger() const {
-            return (integer_t)val;
+            return (integer_t)value;
         }
 
         virtual double_t AsDouble() const {
-            return (double_t)val;
+            return (double_t)value;
         }
+
+        virtual void push_back(const IJValue & val) {
+            value.push_back(val);
+        };
+
+        virtual void push_front(const IJValue & val) {
+            value.push_front(val);
+        };
+
+        virtual void pop_back() {
+            value.pop_back();
+        };
+
+        virtual void pop_front() {
+            value.pop_front();
+        };
+
+        virtual size_t size() {
+            return value.size();
+        };
 
     };
 
