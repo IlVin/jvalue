@@ -38,12 +38,8 @@ namespace NJValue {
         inline operator bool_t() const { return false; }
         inline operator integer_t() const { return 0; }
         inline operator double_t() const { return 0.0; }
+        inline operator array_t() const { return array_t(); }
 
-        inline void push_back(const IJValue & val) { };
-        inline void push_front(const IJValue & val) { };
-        inline void pop_back() { };
-        inline void pop_front() { };
-        inline size_t size() { return 1; };
     };
 
     class JSON_NULL : public JSON_UNDEFINED {
@@ -117,10 +113,6 @@ namespace NJValue {
                 return 0.0;
             }
         }
-
-        inline size_t size() {
-            return value.size();
-        }
     };
 
     class JSON_BOOL : public JSON_UNDEFINED {
@@ -181,7 +173,7 @@ namespace NJValue {
         EJValueType GetType() const;
 
         inline operator string_t() const {
-            snprintf((char*)buffer, 20, "ARRAY(0x%x)", (size_t)this);
+            snprintf((char*)buffer, 20, "ARRAY(0x%zx)", (size_t)this);
             return string_t(buffer);
         }
         inline operator bool_t() const { return size() == 0 ? false : true; }
@@ -210,18 +202,6 @@ namespace NJValue {
         virtual bool_t AsBool() const { return false; };
         virtual integer_t AsInteger() const { return 0; };
         virtual double_t AsDouble() const { return 0; };
-
-        virtual void push_back(const IJValue & val) { };
-        virtual void push_front(const IJValue & val) { };
-        virtual void pop_back() { };
-        virtual void pop_front() { };
-        virtual size_t size() { return 0; };
-
-        virtual JSON_ARRAY AsArray() const {
-            JSON_ARRAY a;
-            a.push_back(*this);
-            return a;
-        }
 
         virtual ~IJValue() {
         }
@@ -285,27 +265,27 @@ namespace NJValue {
             return (double_t)value;
         }
 
-        virtual void push_back(const IJValue & val) {
-            value.push_back(val);
-        };
-
-        virtual void push_front(const IJValue & val) {
-            value.push_front(val);
-        };
-
-        virtual void pop_back() {
-            value.pop_back();
-        };
-
-        virtual void pop_front() {
-            value.pop_front();
-        };
-
-        virtual size_t size() {
-            return value.size();
-        };
+        const TJValue<JSON_ARRAY> & AsArray();
 
     };
+
+    template<>
+    inline const TJValue<JSON_ARRAY> & TJValue<JSON_ARRAY>::AsArray() {
+        return *this;
+    }
+/*
+    template<>
+    inline TJValue<JSON_ARRAY> TJValue<JSON_MAP>::AsArray() {
+        return TJArray();
+    }
+*/
+    TJValue<JSON_ARRAY> g;
+    template<class T>
+    inline const TJValue<JSON_ARRAY> & TJValue<T>::AsArray() {
+        TJValue<JSON_ARRAY>  array; // = new TJValue<JSON_ARRAY>();
+        (array.GetValue()).push_back(*this);
+        return array;
+    }
 
     inline EJValueType JSON_UNDEFINED::GetType() const { return JUNDEFINED; }
     inline EJValueType JSON_NULL::GetType() const { return JNULL; }

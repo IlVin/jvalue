@@ -16,7 +16,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
     }
 
@@ -28,7 +27,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
     }
 
@@ -40,7 +38,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 1);
             BOOST_CHECK_EQUAL(j.AsDouble(), 1.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         {
@@ -50,7 +47,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
     }
 
@@ -62,7 +58,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 5);
             BOOST_CHECK_EQUAL(j.AsDouble(), 5.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         {
@@ -72,7 +67,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), -15);
             BOOST_CHECK_EQUAL(j.AsDouble(), -15.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         {
@@ -82,7 +76,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         // TODO Добавить тесты на диапазоны допустимых значений
@@ -96,7 +89,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 5);
             BOOST_CHECK_EQUAL(j.AsDouble(), 5.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         {
@@ -106,7 +98,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), -15);
             BOOST_CHECK_EQUAL(j.AsDouble(), -15.6);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         {
@@ -116,7 +107,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.1);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         // TODO Добавить тесты на диапазоны допустимых значений
@@ -130,7 +120,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 6);
         }
 
         {
@@ -140,7 +129,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 0);
         }
 
         {
@@ -150,7 +138,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 4);
         }
 
         {
@@ -160,7 +147,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         {
@@ -170,7 +156,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 5);
             BOOST_CHECK_EQUAL(j.AsDouble(), 5.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 1);
         }
 
         {
@@ -180,7 +165,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), -25);
             BOOST_CHECK_EQUAL(j.AsDouble(), -25.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 3);
         }
 
         {
@@ -190,7 +174,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 1);
             BOOST_CHECK_EQUAL(j.AsDouble(), 1.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 4);
         }
 
         {
@@ -200,7 +183,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 5);
         }
     }
 
@@ -212,9 +194,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
-            BOOST_CHECK_EQUAL(j.size(), 0);
         }
-
+/*
         {
             TJValue<JSON_ARRAY> j;
             j.push_back(TJValue<JSON_INTEGER>(6));
@@ -224,7 +205,6 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 2);
             BOOST_CHECK_EQUAL(j.AsDouble(), 2.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
-            BOOST_CHECK_EQUAL(j.size(), 2);
             j.pop_back();
             j.pop_front();
             BOOST_CHECK_EQUAL(j.IsArray(), true);
@@ -234,7 +214,7 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsBool(), false);
             BOOST_CHECK_EQUAL(j.size(), 0);
         }
-
+*/
         // TODO Добавить тесты на диапазоны допустимых значений
     }
 
