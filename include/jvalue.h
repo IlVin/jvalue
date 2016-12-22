@@ -19,8 +19,8 @@ namespace NJValue {
     using string_t = std::string;
     using integer_t = long;
     using double_t = double;
-    using array_t = std::deque<IJValue>;
-    using map_t = std::map<string_t, IJValue>;
+    using array_t = std::deque<IJValue *>;
+    using map_t = std::map<string_t, IJValue *>;
 
     class JSON_UNDEFINED {
 
@@ -28,39 +28,25 @@ namespace NJValue {
 
         EJValueType GetType() const;
 
-        inline void Swap (JSON_UNDEFINED & j) { }
-        inline JSON_UNDEFINED & operator = (JSON_UNDEFINED j) {
-            this->Swap(j);
-            return *this;
-        }
-
         inline operator string_t() const { return ""; }
         inline operator bool_t() const { return false; }
         inline operator integer_t() const { return 0; }
         inline operator double_t() const { return 0.0; }
-        inline operator array_t() const { return array_t(); }
-
     };
 
-    class JSON_NULL : public JSON_UNDEFINED {
+    class JSON_NULL {
 
         public:
 
         EJValueType GetType() const;
 
-        inline void Swap (JSON_NULL & j) { }
-        inline JSON_NULL & operator = (JSON_NULL j) {
-            this->Swap(j);
-            return *this;
-        }
-
         inline operator string_t() const { return ""; }
         inline operator bool_t() const { return false; }
         inline operator integer_t() const { return 0; }
         inline operator double_t() const { return 0.0; }
     };
 
-    class JSON_STRING : public JSON_UNDEFINED {
+    class JSON_STRING {
 
         string_t value;
 
@@ -70,15 +56,6 @@ namespace NJValue {
         explicit inline JSON_STRING(const JSON_STRING & val) : value(val.value) { }
 
         EJValueType GetType() const;
-
-        inline void Swap (JSON_STRING & str) {
-            std::swap(value, str.value);
-        }
-
-        inline JSON_STRING & operator = (JSON_STRING str) {
-            this->Swap(str);
-            return *this;
-        }
 
         inline operator string_t() const {
             return value;
@@ -115,7 +92,7 @@ namespace NJValue {
         }
     };
 
-    class JSON_BOOL : public JSON_UNDEFINED {
+    class JSON_BOOL {
 
         bool_t value;
 
@@ -132,7 +109,7 @@ namespace NJValue {
         inline operator double_t() const { return value ? 1.0 : 0.0; }
     };
 
-    class JSON_INTEGER : public JSON_UNDEFINED {
+    class JSON_INTEGER {
 
         integer_t value;
 
@@ -149,7 +126,7 @@ namespace NJValue {
         inline operator double_t() const { return (double_t)value; }
     };
 
-    class JSON_DOUBLE : public JSON_UNDEFINED {
+    class JSON_DOUBLE {
 
         double_t value;
 
@@ -197,11 +174,13 @@ namespace NJValue {
         inline bool IsArray() const { return GetType() == JARRAY; }
         inline bool IsMap() const { return GetType() == JMAP; }
 
-        virtual EJValueType GetType() const { return JUNDEFINED; }
-        virtual string_t AsString() const { return ""; };
-        virtual bool_t AsBool() const { return false; };
-        virtual integer_t AsInteger() const { return 0; };
-        virtual double_t AsDouble() const { return 0; };
+        virtual EJValueType GetType() const = 0;
+        virtual string_t AsString() const = 0;
+        virtual bool_t AsBool() const = 0;
+        virtual integer_t AsInteger() const = 0;
+        virtual double_t AsDouble() const = 0;
+
+//        virtual IJValue * GetValue() const = 0;
 
         virtual ~IJValue() {
         }
@@ -245,10 +224,6 @@ namespace NJValue {
             return value.GetType();
         }
 
-        virtual const T & GetValue() const {
-            return value;
-        }
-
         virtual string_t AsString() const {
             return (string_t)value;
         }
@@ -279,6 +254,7 @@ namespace NJValue {
         return TJArray();
     }
 */
+    /*
     TJValue<JSON_ARRAY> g;
     template<class T>
     inline const TJValue<JSON_ARRAY> & TJValue<T>::AsArray() {
@@ -287,6 +263,7 @@ namespace NJValue {
         return array;
     }
 
+    */
     inline EJValueType JSON_UNDEFINED::GetType() const { return JUNDEFINED; }
     inline EJValueType JSON_NULL::GetType() const { return JNULL; }
     inline EJValueType JSON_INTEGER::GetType() const { return JINTEGER; }
