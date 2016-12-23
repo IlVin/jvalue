@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdio>
 #include <deque>
+#include <iostream>
 
 namespace NJValue {
 
@@ -26,6 +27,10 @@ namespace NJValue {
 
         public:
 
+        explicit inline JSON_UNDEFINED () { std::cout << "JSON_UNDEFINED()\n"; }
+        explicit inline JSON_UNDEFINED (const JSON_UNDEFINED & val) { std::cout << "JSON_UNDEFINED(const JSON_UNDEFINED & val)\n"; }
+        inline ~JSON_UNDEFINED () { std::cout << "~JSON_UNDEFINED()\n"; }
+
         EJValueType GetType() const;
 
         inline operator string_t() const { return ""; }
@@ -33,13 +38,16 @@ namespace NJValue {
         inline operator integer_t() const { return 0; }
         inline operator double_t() const { return 0.0; }
 
-        operator array_t() const;
     };
 
     class JSON_NULL {
 
         public:
 
+        explicit inline JSON_NULL () { std::cout << "JSON_NULL()\n"; }
+        explicit inline JSON_NULL (const JSON_NULL & val) { std::cout << "JSON_NULL(const JSON_NULL & val)\n"; }
+        inline ~JSON_NULL () { std::cout << "~JSON_NULL()\n"; }
+
         EJValueType GetType() const;
 
         inline operator string_t() const { return ""; }
@@ -47,7 +55,6 @@ namespace NJValue {
         inline operator integer_t() const { return 0; }
         inline operator double_t() const { return 0.0; }
 
-        operator array_t() const;
     };
 
     class JSON_STRING {
@@ -56,8 +63,9 @@ namespace NJValue {
 
         public:
 
-        explicit inline JSON_STRING(const string_t & value = "") : value(value) { }
-        explicit inline JSON_STRING(const JSON_STRING & val) : value(val.value) { }
+        explicit inline JSON_STRING(const string_t & val = "") : value(val) { std::cout << "JSON_STRING()\n"; }
+        explicit inline JSON_STRING(const JSON_STRING & val) : value(val.value) { std::cout << "JSON_STRING(const JSON_STRING & val)\n"; }
+        inline ~JSON_STRING () { std::cout << "~JSON_STRING()\n"; }
 
         EJValueType GetType() const;
 
@@ -95,7 +103,6 @@ namespace NJValue {
             }
         }
 
-        operator array_t() const;
     };
 
     class JSON_BOOL {
@@ -104,8 +111,9 @@ namespace NJValue {
 
         public:
 
-        explicit inline JSON_BOOL(const bool_t & value = false) : value(value) { }
-        explicit inline JSON_BOOL(const JSON_BOOL & val) : value(val.value) { }
+        explicit inline JSON_BOOL(const bool_t & val = false) : value(val) { std::cout << "JSON_NULL(const JSON_NULL & val)\n"; }
+        explicit inline JSON_BOOL(const JSON_BOOL & val) : value(val.value) { std::cout << "JSON_NULL(const JSON_NULL & val)\n"; }
+        inline ~JSON_BOOL () { std::cout << "~JSON_BOOL()\n"; }
 
         EJValueType GetType() const;
 
@@ -114,7 +122,6 @@ namespace NJValue {
         inline operator integer_t() const { return value ? 1 : 0; }
         inline operator double_t() const { return value ? 1.0 : 0.0; }
 
-        operator array_t() const;
     };
 
     class JSON_INTEGER {
@@ -123,17 +130,17 @@ namespace NJValue {
 
         public:
 
-        explicit inline JSON_INTEGER(const integer_t & value = 0) : value(value) { }
-        explicit inline JSON_INTEGER(const JSON_INTEGER & val) : value(val.value) { }
+        explicit inline JSON_INTEGER(const integer_t & val = 0) : value(val) { std::cout << "JSON_INTEGER()\n"; }
+        explicit inline JSON_INTEGER(const JSON_INTEGER & val) : value(val.value) { std::cout << "JSON_INTEGER(const JSON_INTEGER & val)\n"; }
+        inline ~JSON_INTEGER () { std::cout << "~JSON_INTEGER()\n"; }
 
         EJValueType GetType() const;
 
         inline operator string_t() const { return std::to_string(value); }
         inline operator bool_t() const { return value == 0 ? false : true; }
         inline operator integer_t() const { return value; }
-        inline operator double_t() const { return (double_t)value; }
+        inline operator double_t() const { return static_cast<double_t>(value); }
 
-        operator array_t() const;
     };
 
     class JSON_DOUBLE {
@@ -142,8 +149,9 @@ namespace NJValue {
 
         public:
 
-        explicit inline JSON_DOUBLE(const double_t & value = 0.0) : value(value) { }
-        explicit inline JSON_DOUBLE(const JSON_DOUBLE & val) : value(val.value) { }
+        explicit inline JSON_DOUBLE(const double_t & val = 0.0) : value(val) { std::cout << "JSON_DOUBLE()\n"; }
+        explicit inline JSON_DOUBLE(const JSON_DOUBLE & val) : value(val.value) { std::cout << "JSON_DOUBLE(const JSON_DOUBLE & val)\n"; }
+        inline ~JSON_DOUBLE () { std::cout << "~JSON_DOUBLE()\n"; }
 
         EJValueType GetType() const;
 
@@ -152,30 +160,30 @@ namespace NJValue {
         inline operator integer_t() const { return (integer_t)value; }
         inline operator double_t() const { return value; }
 
-        operator array_t() const;
     };
 
     class JSON_ARRAY {
 
-        char buffer[20];
         array_t value;
 
         public:
-        explicit inline JSON_ARRAY() { }
-        explicit inline JSON_ARRAY(const array_t & value) : value(value) { }
-        explicit inline JSON_ARRAY(const JSON_ARRAY & val) : value(val.value) { }
+        explicit inline JSON_ARRAY() { std::cout << "JSON_ARRAY()\n"; }
+        explicit inline JSON_ARRAY(const JSON_ARRAY & val) : value(val.value) { std::cout << "JSON_ARRAY(const JSON_ARRAY & val)\n"; }
+        explicit inline JSON_ARRAY(const array_t & val) : value(val) { std::cout << "JSON_ARRAY(const array_t & val)\n"; }
+        inline ~JSON_ARRAY () { std::cout << "~JSON_ARRAY()\n"; }
 
         EJValueType GetType() const;
 
-        inline operator string_t() const {
-            snprintf((char*)buffer, 20, "ARRAY(0x%zx)", (size_t)this);
-            return string_t(buffer);
-        }
+        inline operator string_t() const { return std::to_string(value.size()); }
         inline operator bool_t() const { return value.size() == 0 ? false : true; }
         inline operator integer_t() const { return value.size(); }
         inline operator double_t() const { return (double_t)value.size(); }
 
-        operator array_t() const;
+//        inline operator string_t() const {
+//        char buffer[40];
+//            snprintf((char*)buffer, 40, "ARRAY(0x%zx => 0x%zx)", (size_t)this, (size_t)&value);
+//            return string_t(buffer);
+//        }
     };
 
     class IJValue {
@@ -248,83 +256,26 @@ namespace NJValue {
         }
 
         virtual string_t AsString() const {
-            return (string_t)value;
+            return static_cast<string_t>(value);
         }
 
         virtual bool_t AsBool() const {
-            return (bool_t)value;
+            return static_cast<bool_t>(value);
         }
 
         virtual integer_t AsInteger() const {
-            return (integer_t)value;
+            return static_cast<integer_t>(value);
         }
 
         virtual double_t AsDouble() const {
-            return (double_t)value;
+            return static_cast<double_t>(value);
         }
 
-        const TJValue<JSON_ARRAY> & AsArray();
+//        virtual array_t AsArray() const {
+//            return static_cast<array_t>(value);
+//        };
 
     };
-
-    template<>
-    inline const TJValue<JSON_ARRAY> & TJValue<JSON_ARRAY>::AsArray() {
-        return *this;
-    }
-/*
-    template<>
-    inline TJValue<JSON_ARRAY> TJValue<JSON_MAP>::AsArray() {
-        return TJArray();
-    }
-*/
-    /*
-    TJValue<JSON_ARRAY> g;
-    template<class T>
-    inline const TJValue<JSON_ARRAY> & TJValue<T>::AsArray() {
-        TJValue<JSON_ARRAY>  array; // = new TJValue<JSON_ARRAY>();
-        (array.GetValue()).push_back(*this);
-        return array;
-    }
-
-    */
-
-    inline JSON_ARRAY::operator array_t() const {
-        return value;
-    }
-
-    inline JSON_UNDEFINED::operator array_t() const {
-        return array_t();
-    }
-
-    inline JSON_NULL::operator array_t() const {
-        array_t a;
-        a.push_back(new TJValue<JSON_NULL>());
-        return a;
-    }
-
-    inline JSON_INTEGER::operator array_t() const {
-        array_t a;
-        a.push_back(new TJValue<JSON_INTEGER>(value));
-        return a;
-    }
-
-    inline JSON_STRING::operator array_t() const {
-        array_t a;
-        a.push_back(new TJValue<JSON_STRING>(value));
-        return a;
-    }
-
-    inline JSON_DOUBLE::operator array_t() const {
-        array_t a;
-        a.push_back(new TJValue<JSON_DOUBLE>(value));
-        return a;
-    }
-
-    inline JSON_BOOL::operator array_t() const {
-        array_t a;
-        a.push_back(new TJValue<JSON_BOOL>(value));
-        return a;
-    }
 
     inline EJValueType JSON_UNDEFINED::GetType() const { return JUNDEFINED; }
     inline EJValueType JSON_NULL::GetType() const { return JNULL; }

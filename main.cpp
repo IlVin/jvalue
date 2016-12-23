@@ -6,7 +6,7 @@ using namespace NJValue;
 using namespace std;
 
 int main() {
-
+/*
     JSON_INTEGER ji1;
     TJValue<JSON_INTEGER> ji2 = "5";
     ji2 = 13;
@@ -20,7 +20,7 @@ int main() {
     std::cout << "js1 = " << js1.AsString() << "\n";
     std::cout << "js2 = " << js2.AsString() << "\n";
     std::cout << "ju1 = " << ju1->AsString() << "\n";
-
+*/
 
 
 //    std::cout << "type1 = " << ju1->GetType() << "; type2 = " << ji2.GetType() << "\n";
