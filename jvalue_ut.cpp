@@ -16,6 +16,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsBool(), false);
         }
     }
 
@@ -27,6 +29,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsBool(), false);
         }
     }
 
@@ -38,6 +42,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 1);
             BOOST_CHECK_EQUAL(j.AsDouble(), 1.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsBool(), true);
         }
 
         {
@@ -47,6 +53,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsBool(), false);
         }
     }
 
@@ -58,6 +66,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 5);
             BOOST_CHECK_EQUAL(j.AsDouble(), 5.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsInteger(), 5);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsInteger(), 5);
         }
 
         {
@@ -67,6 +77,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), -15);
             BOOST_CHECK_EQUAL(j.AsDouble(), -15.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsInteger(), -15);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsInteger(), -15);
         }
 
         {
@@ -76,6 +88,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsInteger(), 0);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsInteger(), 0);
         }
 
         // TODO Добавить тесты на диапазоны допустимых значений
@@ -89,6 +103,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 5);
             BOOST_CHECK_EQUAL(j.AsDouble(), 5.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsDouble(), 5.0);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsDouble(), 5.0);
         }
 
         {
@@ -98,6 +114,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), -15);
             BOOST_CHECK_EQUAL(j.AsDouble(), -15.6);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsDouble(), -15.6);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsDouble(), -15.6);
         }
 
         {
@@ -107,6 +125,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.1);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsDouble(), 0.1);
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsDouble(), 0.1);
         }
 
         // TODO Добавить тесты на диапазоны допустимых значений
@@ -120,6 +140,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "Hello!");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "Hello!");
         }
 
         {
@@ -129,6 +151,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "");
         }
 
         {
@@ -138,6 +162,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "null");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "null");
         }
 
         {
@@ -147,6 +173,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "0");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "0");
         }
 
         {
@@ -156,6 +184,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 5);
             BOOST_CHECK_EQUAL(j.AsDouble(), 5.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "5");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "5");
         }
 
         {
@@ -165,6 +195,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), -25);
             BOOST_CHECK_EQUAL(j.AsDouble(), -25.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "-25");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "-25");
         }
 
         {
@@ -174,6 +206,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 1);
             BOOST_CHECK_EQUAL(j.AsDouble(), 1.0);
             BOOST_CHECK_EQUAL(j.AsBool(), true);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "true");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "true");
         }
 
         {
@@ -183,6 +217,8 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             BOOST_CHECK_EQUAL(j.AsInteger(), 0);
             BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
             BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.GetValue().AsString(), "false");
+            BOOST_CHECK_EQUAL(j.GetValuePtr()->AsString(), "false");
         }
     }
 
@@ -191,28 +227,29 @@ BOOST_AUTO_TEST_SUITE(testSuiteJValue)
             std::cout << "===> testJValueArray\n";
             TJValue<JSON_ARRAY> j;
             BOOST_CHECK_EQUAL(j.IsArray(), true);
-//            BOOST_CHECK_EQUAL(j.AsString().substr(0,5), "ARRAY");
-//            BOOST_CHECK_EQUAL(j.AsInteger(), 0);
-//            BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
-//            BOOST_CHECK_EQUAL(j.AsBool(), false);
+            BOOST_CHECK_EQUAL(j.AsString(), "0");
+            BOOST_CHECK_EQUAL(j.AsInteger(), 0);
+            BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
+            BOOST_CHECK_EQUAL(j.AsBool(), false);
         }
 
         {
             std::cout << "===> testJValueArray.CopyConstructor\n";
-//            TJValue<JSON_ARRAY> j;
-//            BOOST_CHECK_EQUAL(j.IsArray(), true);
-//            BOOST_CHECK_EQUAL(j.AsString(), "0");
-//            BOOST_CHECK_EQUAL(j.AsInteger(), 0);
-//            BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
-//            BOOST_CHECK_EQUAL(j.AsBool(), false);
-//            TJValue<JSON_ARRAY> i = j;
-//            BOOST_CHECK_EQUAL(i.IsArray(), true);
-//            BOOST_CHECK_EQUAL(i.AsString(), "0");
-//            BOOST_CHECK_EQUAL(i.AsInteger(), 0);
-//            BOOST_CHECK_EQUAL(i.AsDouble(), 0.0);
-//            BOOST_CHECK_EQUAL(i.AsBool(), false);
+            TJValue<JSON_ARRAY> j;
+            BOOST_CHECK_EQUAL(j.IsArray(), true);
+            BOOST_CHECK_EQUAL(j.AsString(), "0");
+            BOOST_CHECK_EQUAL(j.AsInteger(), 0);
+            BOOST_CHECK_EQUAL(j.AsDouble(), 0.0);
+            BOOST_CHECK_EQUAL(j.AsBool(), false);
+            TJValue<JSON_ARRAY> i = j;
+//            i.push_back("345");
+            BOOST_CHECK_EQUAL(i.IsArray(), true);
+            BOOST_CHECK_EQUAL(i.AsString(), "0");
+            BOOST_CHECK_EQUAL(i.AsInteger(), 0);
+            BOOST_CHECK_EQUAL(i.AsDouble(), 0.0);
+            BOOST_CHECK_EQUAL(i.AsBool(), false);
 
-//            BOOST_CHECK_EQUAL(i.AsString(), j.AsString());
+            BOOST_CHECK_EQUAL(i.AsString(), j.AsString());
         }
         // TODO Добавить тесты на диапазоны допустимых значений
     }
